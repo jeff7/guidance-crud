@@ -10,6 +10,10 @@ export const ProductShow = () => {
   const { data, isLoading } = queryResult;
   const record = data?.data;
 
+  const formatedDate = () => {
+    if(record?.validityDate) return record?.validityDate.split('T')[0];
+  }
+
   return (
     <Show isLoading={isLoading}>
       <Flex gap={4}>
@@ -39,10 +43,7 @@ export const ProductShow = () => {
 
       <Flex gap={4}>
         <InputView placeholder="Condição" value={record?.condition} />
-        <InputView
-          placeholder="Data de Validade"
-          value={record?.validityDate}
-        />
+        <InputView placeholder="Data de Validade" value={formatedDate()} />
         <InputView placeholder="Peso (kg)" value={record?.weight} />
         <InputView placeholder="Altura (cm)" value={record?.height} />
         <InputView placeholder="Comprimento (cm)" value={record?.length} />
@@ -50,7 +51,11 @@ export const ProductShow = () => {
       </Flex>
 
       <Flex gap={4}>
-        <InputView textarea placeholder="Descrição" value={record?.description} />
+        <InputView
+          textarea
+          placeholder="Descrição"
+          value={record?.description}
+        />
       </Flex>
     </Show>
   );
