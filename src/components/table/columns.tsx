@@ -22,7 +22,7 @@ export const dinamicsColumns = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: "Ações",
     accessorKey: "id",
     enableColumnFilter: false,
     enableSorting: false,
