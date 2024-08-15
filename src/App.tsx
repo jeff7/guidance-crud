@@ -2,6 +2,7 @@ import { Refine } from "@refinedev/core";
 import {
   ErrorComponent,
   RefineThemes,
+  ThemedLayoutV2,
   notificationProvider,
 } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -44,7 +45,14 @@ const App: React.FC = () => {
         >
           <Routes>
             <Route index element={<NavigateToResource resource="products" />} />
-            <Route path="/products" element={<Outlet />}>
+            <Route
+              path="/products"
+              element={
+                <ThemedLayoutV2>
+                  <Outlet />
+                </ThemedLayoutV2>
+              }
+            >
               <Route index element={<ProductList />} />
               <Route path="create" element={<ProductCreate />} />
               <Route path=":id" element={<ProductShow />} />

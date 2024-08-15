@@ -4,7 +4,6 @@ import {
   TextField,
   NumberField,
   MarkdownField,
-  Layout,
 } from "@refinedev/chakra-ui";
 
 import { Heading } from "@chakra-ui/react";
@@ -15,7 +14,6 @@ export const ProductShow = () => {
   const record = data?.data;
 
   return (
-    <Layout>
       <Show isLoading={isLoading}>
         <Heading as="h5" size="sm">
           Id
@@ -45,6 +43,5 @@ export const ProductShow = () => {
           options={{ style: "currency", currency: "USD" }}
         />
       </Show>
-    </Layout>
   );
 };
