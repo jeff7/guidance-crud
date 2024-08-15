@@ -1,43 +1,61 @@
-import { GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
+import { Refine } from "@refinedev/core";
+import {
+  ErrorComponent,
+  RefineThemes,
+  notificationProvider,
+} from "@refinedev/chakra-ui";
+import { ChakraProvider } from "@chakra-ui/react";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 
-import routerBindings, {
-  DocumentTitleHandler,
-  UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+import {
+  ProductList,
+  ProductCreate,
+  ProductEdit,
+  ProductShow,
+} from "./pages/products";
+import { dataProviderApi } from "./services";
 
-function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <GitHubBanner />
-      <RefineKbarProvider>
-        <DevtoolsProvider>
-          <Refine
-            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-            routerProvider={routerBindings}
-            options={{
-              syncWithLocation: true,
-              warnWhenUnsavedChanges: true,
-              useNewQueryKeys: true,
-              projectId: "8rnmHH-uLKVzB-bFNBRb",
-            }}
-          >
-            <Routes>
-              <Route index element={<WelcomePage />} />
-            </Routes>
-            <RefineKbar />
-            <UnsavedChangesNotifier />
-            <DocumentTitleHandler />
-          </Refine>
-          <DevtoolsPanel />
-        </DevtoolsProvider>
-      </RefineKbarProvider>
+      <ChakraProvider theme={RefineThemes.Blue}>
+        <Refine
+          notificationProvider={notificationProvider}
+          routerProvider={routerProvider}
+          dataProvider={dataProviderApi}
+          resources={[
+            {
+              name: "products",
+              list: "/products",
+              show: "/products/:id",
+              edit: "/products/:id/edit",
+              create: "/products/create",
+              meta: {
+                canDelete: true,
+              },
+            },
+          ]}
+        >
+          <Routes>
+            <Route index element={<NavigateToResource resource="products" />} />
+            <Route path="/products" element={<Outlet />}>
+              <Route index element={<ProductList />} />
+              <Route path="create" element={<ProductCreate />} />
+              <Route path=":id" element={<ProductShow />} />
+              <Route path=":id/edit" element={<ProductEdit />} />
+            </Route>
+            <Route path="*" element={<ErrorComponent />} />
+          </Routes>
+        </Refine>
+      </ChakraProvider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
