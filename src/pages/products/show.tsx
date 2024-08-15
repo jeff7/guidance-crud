@@ -1,12 +1,9 @@
 import { useShow } from "@refinedev/core";
-import {
-  Show,
-  TextField,
-  NumberField,
-  MarkdownField,
-} from "@refinedev/chakra-ui";
+import { Show } from "@refinedev/chakra-ui";
 
-import { Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { DividerForm } from "../../components/forms";
+import { InputView } from "../../components/InputView/InputView";
 
 export const ProductShow = () => {
   const { queryResult } = useShow();
@@ -14,34 +11,47 @@ export const ProductShow = () => {
   const record = data?.data;
 
   return (
-      <Show isLoading={isLoading}>
-        <Heading as="h5" size="sm">
-          Id
-        </Heading>
-        <TextField value={record?.id} />
+    <Show isLoading={isLoading}>
+      <Flex gap={4}>
+        <InputView placeholder="Código" value={record?.id} />
+        <InputView placeholder="Nome" value={record?.name} />
+        <InputView placeholder="Categoria" value={record?.category} />
+        <InputView placeholder="Preço" value={record?.price} />
+        <InputView placeholder="Desconto (%)" value={record?.discount} />
+      </Flex>
 
-        <Heading as="h5" size="sm" mt={4}>
-          Name
-        </Heading>
-        <TextField value={record?.name} />
+      <DividerForm label="Disponibilidade" />
 
-        <Heading as="h5" size="sm" mt={4}>
-          Material
-        </Heading>
-        <TextField value={record?.material} />
-
-        <Heading as="h5" size="sm" mt={4}>
-          Description
-        </Heading>
-        <MarkdownField value={record?.description} />
-
-        <Heading as="h5" size="sm" mt={4}>
-          Price
-        </Heading>
-        <NumberField
-          value={record?.price}
-          options={{ style: "currency", currency: "USD" }}
+      <Flex gap={4}>
+        <InputView
+          placeholder="Quantidade em Estoque"
+          value={record?.quantityStock}
         />
-      </Show>
+        <InputView
+          placeholder="Status de Disponibilidade"
+          value={record?.statusAvailability}
+        />
+        <InputView placeholder="Fornecedor" value={record?.supplier} />
+        <InputView placeholder="Garantia (em dias)" value={record?.guarantee} />
+      </Flex>
+
+      <DividerForm label="Características" />
+
+      <Flex gap={4}>
+        <InputView placeholder="Condição" value={record?.condition} />
+        <InputView
+          placeholder="Data de Validade"
+          value={record?.validityDate}
+        />
+        <InputView placeholder="Peso (kg)" value={record?.weight} />
+        <InputView placeholder="Altura (cm)" value={record?.height} />
+        <InputView placeholder="Comprimento (cm)" value={record?.length} />
+        <InputView placeholder="Largura (cm)" value={record?.width} />
+      </Flex>
+
+      <Flex gap={4}>
+        <InputView textarea placeholder="Descrição" value={record?.description} />
+      </Flex>
+    </Show>
   );
 };
