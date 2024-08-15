@@ -1,26 +1,11 @@
 import { Refine } from "@refinedev/core";
-import {
-  ErrorComponent,
-  RefineThemes,
-  ThemedLayoutV2,
-  notificationProvider,
-} from "@refinedev/chakra-ui";
+import { RefineThemes, notificationProvider } from "@refinedev/chakra-ui";
 import { ChakraProvider } from "@chakra-ui/react";
-import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import routerProvider from "@refinedev/react-router-v6";
+import { BrowserRouter } from "react-router-dom";
 
-import {
-  ProductList,
-  ProductCreate,
-  ProductEdit,
-  ProductShow,
-} from "./pages/products";
 import { dataProviderApi } from "./services";
+import { ProductPageAnimation } from "./components/animation/ProductPageAnimation";
 
 const App: React.FC = () => {
   return (
@@ -43,23 +28,7 @@ const App: React.FC = () => {
             },
           ]}
         >
-          <Routes>
-            <Route index element={<NavigateToResource resource="products" />} />
-            <Route
-              path="/products"
-              element={
-                <ThemedLayoutV2>
-                  <Outlet />
-                </ThemedLayoutV2>
-              }
-            >
-              <Route index element={<ProductList />} />
-              <Route path="create" element={<ProductCreate />} />
-              <Route path=":id" element={<ProductShow />} />
-              <Route path=":id/edit" element={<ProductEdit />} />
-            </Route>
-            <Route path="*" element={<ErrorComponent />} />
-          </Routes>
+          <ProductPageAnimation />
         </Refine>
       </ChakraProvider>
     </BrowserRouter>
